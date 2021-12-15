@@ -1,4 +1,4 @@
-﻿using Dynastream.Fit;
+using Dynastream.Fit;
 using FitConverter.Sigma;
 
 namespace FitConverter.FitConvert
@@ -18,7 +18,15 @@ namespace FitConverter.FitConvert
 
             deviceInfoMesg.SetTimestamp(new DateTime(_dateTimeService.Now));
 
-            if (!string.IsNullOrEmpty(source.Computer.Serial)) deviceInfoMesg.SetSerialNumber(uint.Parse(source.Computer.Serial));
+            if (!string.IsNullOrEmpty(source.Computer.Serial))
+            {
+                long serial = long.Parse(source.Computer.Serial);
+                if (serial < uint.MaxValue)
+                {
+                    deviceInfoMesg.SetSerialNumber((uint)serial);
+                }
+            }
+
 
             deviceInfoMesg.SetManufacturer(Manufacturer.Sigmasport);
             deviceInfoMesg.SetProduct(901);
